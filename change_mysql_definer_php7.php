@@ -1,24 +1,20 @@
 <?php
 
-// ===== configration part starts =====
+require ('config.php');
 
-$for_real = true; // execute DDL statements
-$verbose  = true; // show DDL statements 
+if (count($argv) < 5) {
+	echo "Usage: {$argv[0]} old_definer_user old_definer_host new_definer_user new_definer_host [for_real=false] [verbose=true]\n";
+	exit();
+}
 
-$db_host = "127.0.0.1";
-$db_user = "root";
-$db_pass = "";
+$for_real = isset($argv[5])?filter_var($argv[5], FILTER_VALIDATE_BOOLEAN):false; // execute DDL statements
+$verbose  = isset($argv[6])?filter_var($argv[6], FILTER_VALIDATE_BOOLEAN):true; // show DDL statements 
 
-$old_definer_user = "admin";
-$old_definer_host = "localhost";
+$old_definer_user = $argv[1];
+$old_definer_host = $argv[2];
 
-$new_definer_user = "foo";
-$new_definer_host = "bar";
-
-// ===== configration part ends =====
-
-
-
+$new_definer_user = $argv[3];
+$new_definer_host = $argv[4];
 
 $old_definer_sql = "`".$old_definer_user."`@`".$old_definer_host."`";
 $old_definer=$old_definer_user."@".$old_definer_host;
